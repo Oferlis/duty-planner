@@ -1,26 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { AppProvider, useAppContext } from "./context/AppContext";
+import { Navigation } from "./components/Navigation";
+import { Dashboard } from "./components/Dashboard";
+import { TableView } from "./components/TableView";
+import { CalendarView } from "./components/CalendarView";
 
-function App() {
+const AppContent: React.FC = () => {
+  const { activeView } = useAppContext();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Navigation />
+      <main className="main-content">
+        <Dashboard />
+        {activeView === "TABLE" ? <TableView /> : <CalendarView />}
+      </main>
+    </>
   );
-}
+};
+
+const App: React.FC = () => {
+  return (
+    <AppProvider>
+      <AppContent />
+    </AppProvider>
+  );
+};
 
 export default App;
